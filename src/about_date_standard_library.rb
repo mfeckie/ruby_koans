@@ -4,6 +4,14 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 class AboutDateStandardLibrary < Neo::Koan
   require 'date'
 
+  RUBY_BIRTHDAY = Date.new(1993, 2, 24)
+
+  def test_when_was_RUBY_born?
+
+    assert_equal __(1993), RUBY_BIRTHDAY.year
+
+  end
+
   def test_dates_are_objects_too
     date = Date.new
     assert_equal __(true), date.is_a?(Object)
@@ -66,7 +74,7 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
   def test_dates_are_immutable_changes_make_new_objects
-    date = Date.new(1993, 2, 24)
+    date = RUBY_BIRTHDAY
     date_object_id = date.object_id
     date += 1
     date_object_id2 = date.object_id
@@ -87,8 +95,8 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
   def test_are_we_in_a_leap_year?
-    not_a_leap_year = Date.new(1993,2,24).leap?
-    leap_year = Date.new(1992,2,24).leap?
+    not_a_leap_year = RUBY_BIRTHDAY.leap?
+    leap_year = Date.new(1992, 2, 24).leap?
 
     assert_equal __(false), not_a_leap_year
     assert_equal __(true), leap_year
@@ -96,7 +104,7 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
   def test_what_is_the_weekday?
-    date = Date.new(1993,2,24)
+    date = RUBY_BIRTHDAY
     days_as_words = Date::DAYNAMES
 
     assert_equal __(3), date.wday
@@ -106,7 +114,7 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
   def test_day_of_week_methods
-    date = Date.new(1993,2,24)
+    date = RUBY_BIRTHDAY
 
     assert_equal __(false), date.monday?
     assert_equal __(false), date.tuesday?
@@ -115,14 +123,14 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
   def test_calendar_weeks_or_standard_weeks
-    date = Date.new(1993,2,21)
+    date = Date.new(1993, 2, 21)
 
     assert_equal __(0), date.wday
     assert_equal __(7), date.cwday
   end
 
   def test_adding_days
-    date = Date.new(1993,2,24)
+    date = RUBY_BIRTHDAY
     date_plus_one = date + 1
     next_day = date.next_day
     more_than_one_day = date.next_day(4)
@@ -134,8 +142,8 @@ class AboutDateStandardLibrary < Neo::Koan
 
   end
 
-  def test_minus_subtracts_days
-    date = Date.new(1993,2,24)
+  def test_subtracting_days
+    date = RUBY_BIRTHDAY
     date_minus_one = date -1
     previous_day = date.prev_day
     more_than_one_day_prior = date.prev_day(4)
@@ -150,7 +158,7 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
   def test_what_is_the_month?
-    date = Date.new(1993,2,24)
+    date = RUBY_BIRTHDAY
 
     assert_equal __(2), date.month
     assert_equal __(2), date.mon
@@ -159,8 +167,8 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
 
-  def test_subtract_moths
-    date = Date.new(1993,2,24)
+  def test_subtracting_months
+    date = RUBY_BIRTHDAY
     date_minus_month = date << 1
     previous_month = date.prev_month
     more_than_one_month_prior = date.prev_month(2)
@@ -173,7 +181,7 @@ class AboutDateStandardLibrary < Neo::Koan
   end
 
   def test_adding_months
-    date = Date.new(1993, 2,24)
+    date = RUBY_BIRTHDAY
     date_plus_month = date >> 1
     next_month = date.next_month
     more_than_one_month_in_the_future = date.next_month(2)
@@ -185,27 +193,65 @@ class AboutDateStandardLibrary < Neo::Koan
 
   end
 
+  def test_what_is_the_year?
+    date = RUBY_BIRTHDAY
+
+    assert_equal __(1993), date.year
+  end
+
+  def test_adding_years
+    date = RUBY_BIRTHDAY
+    next_year = date.next_year
+    more_than_one_year_later = date.next_year(10)
+
+    assert_equal __(1994), next_year.year
+    assert_equal __(2003), more_than_one_year_later.year
+
+  end
+
+  def test_subtracting_years
+    date = RUBY_BIRTHDAY
+    previous_year = date.prev_year
+    more_than_one_year_prior = date.prev_year(10)
+
+    assert_equal __(1992), previous_year.year
+    assert_equal __(1983), more_than_one_year_prior.year
+  end
+
   def test_calendar_weeks
-    date = Date.new(1993, 2,24)
+    date = RUBY_BIRTHDAY
 
     assert_equal __(8), date.cweek
 
   end
 
   def test_dates_can_be_enumerable
-    date = Date.new(1993,2,24)
+    date = RUBY_BIRTHDAY
     date2 = date - 7
     date3 = date + 7
 
     assert_equal __(true), date.downto(date2).kind_of?(Enumerable)
     assert_equal __(true), date.upto(date3).kind_of?(Enumerable)
+
   end
 
+  def test_is_a_date_between?
+    start_date = RUBY_BIRTHDAY
+    end_date = Date.new(1994, 2, 24)
+    date1 = Date.new(1993, 6, 1)
+    date2 = Date.new(1994, 2, 25)
 
+    assert_equal __(true), date1.between?(start_date, end_date)
+    assert_equal __(false), date2.between?(start_date, end_date)
 
+  end
 
+  def test_date_as_a_string
+    date = RUBY_BIRTHDAY
 
+    assert_equal __('1993-02-24'), date.to_s
 
+  end
 
 
 end
