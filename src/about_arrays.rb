@@ -81,4 +81,13 @@ class AboutArrays < Neo::Koan
     assert_equal __([1, 2]), array
   end
 
+  def test_array_literals
+    string_array = %w(one two three)
+    symbol_array = %i(one two three)
+
+    assert_equal __(String), string_array[0].class
+    assert_equal __(Symbol), symbol_array[0].class
+
+  end
+
 end
