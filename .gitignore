@@ -4,3 +4,5 @@ dist
 .rvmrc
 *.rbc
 koans/*
+/.idea
+/.idea/*
