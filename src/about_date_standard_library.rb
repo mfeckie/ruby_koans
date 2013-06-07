@@ -6,9 +6,12 @@ class AboutDateStandardLibrary < Neo::Koan
 
   RUBY_BIRTHDAY = Date.new(1993, 2, 24)
 
-  def test_when_was_RUBY_born?
+  def test_when_was_RUBY_born
 
     assert_equal __(1993), RUBY_BIRTHDAY.year
+    assert_equal __(2), RUBY_BIRTHDAY.month
+    assert_equal __(24), RUBY_BIRTHDAY.day
+
 
   end
 
@@ -21,6 +24,8 @@ class AboutDateStandardLibrary < Neo::Koan
     date_without_parameters = Date.new
 
     assert_equal __(true), date_without_parameters.year == -4712
+    assert_equal __(true), date_without_parameters.month == 1
+    assert_equal __(true), date_without_parameters.day == 1
 
   end
 
@@ -47,7 +52,15 @@ class AboutDateStandardLibrary < Neo::Koan
 
 
     assert_equal __(1993), string_date_with_slashes.year
+    assert_equal __(2), string_date_with_slashes.month
+    assert_equal __(24), string_date_with_slashes.day
+
+    assert_equal __(1993), string_date_with_dashes.year
     assert_equal __(2), string_date_with_dashes.month
+    assert_equal __(24), string_date_with_dashes.day
+
+    assert_equal __(1993), string_date_with_dots.year
+    assert_equal __(2), string_date_with_dots.month
     assert_equal __(24), string_date_with_dots.day
 
   end
@@ -59,6 +72,7 @@ class AboutDateStandardLibrary < Neo::Koan
 
     assert_equal __(24), ordinal_date.day
     assert_equal __(2), ordinal_date.month
+    assert_equal __(1993), ordinal_date.year
 
   end
 
@@ -68,8 +82,10 @@ class AboutDateStandardLibrary < Neo::Koan
     day_of_week = 3
     commercial_date = Date.commercial(year, week_of_year, day_of_week)
 
-    assert_equal __(24), commercial_date.day
+    assert_equal __(1993), commercial_date.year
     assert_equal __(2), commercial_date.month
+    assert_equal __(24), commercial_date.day
+
 
   end
 
@@ -89,17 +105,27 @@ class AboutDateStandardLibrary < Neo::Koan
     wordy_date = Date.strptime('Wednesday February 24th 1993', '%A %B %dth %Y')
 
     assert_equal __(24), uk_date.day
+    assert_equal __(2), uk_date.month
+    assert_equal __(1993), uk_date.year
+
+    assert_equal __(1993), weird_star_date.year
     assert_equal __(2), weird_star_date.month
+    assert_equal __(24), weird_star_date.day
+
+
     assert_equal __(1993), wordy_date.year
+    assert_equal __(2), wordy_date.month
+    assert_equal __(24), wordy_date.day
+
 
   end
 
   def test_are_we_in_a_leap_year?
-    not_a_leap_year = RUBY_BIRTHDAY.leap?
-    leap_year = Date.new(1992, 2, 24).leap?
+    not_a_leap_year = RUBY_BIRTHDAY
+    leap_year = Date.new(1992, 2, 24)
 
-    assert_equal __(false), not_a_leap_year
-    assert_equal __(true), leap_year
+    assert_equal __(false), not_a_leap_year.leap?
+    assert_equal __(true), leap_year.leap?
 
   end
 
@@ -119,6 +145,10 @@ class AboutDateStandardLibrary < Neo::Koan
     assert_equal __(false), date.monday?
     assert_equal __(false), date.tuesday?
     assert_equal __(true), date.wednesday?
+    assert_equal __(false), date.thursday?
+    assert_equal __(false), date.friday?
+    assert_equal __(false), date.saturday?
+    assert_equal __(false), date.sunday?
 
   end
 
@@ -144,7 +174,7 @@ class AboutDateStandardLibrary < Neo::Koan
 
   def test_subtracting_days
     date = RUBY_BIRTHDAY
-    date_minus_one = date -1
+    date_minus_one = date - 1
     previous_day = date.prev_day
     more_than_one_day_prior = date.prev_day(4)
 
@@ -157,7 +187,7 @@ class AboutDateStandardLibrary < Neo::Koan
 
   end
 
-  def test_what_is_the_month?
+  def test_what_is_the_month
     date = RUBY_BIRTHDAY
 
     assert_equal __(2), date.month
@@ -177,6 +207,8 @@ class AboutDateStandardLibrary < Neo::Koan
     assert_equal __(1), date_minus_month.month
     assert_equal __(1), previous_month.month
     assert_equal __(12), more_than_one_month_prior.month
+    assert_equal __(1992), more_than_one_month_prior.year
+
 
   end
 
